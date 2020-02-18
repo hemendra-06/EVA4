@@ -1,3 +1,8 @@
+### Team Members:
+    Umesh Singh, (mshsingh772@gmail.com)
+    Hemendra Srinivasan, (hemendra1111@gmail.com)
+
+
 # Model1
 #### Target:
 1. Decide on the initial data transforms
