@@ -1,53 +1,25 @@
 # Model Observations using L1 and L2 Regularizations
 
-## Without L1/L2 Regularization
+## With L1 and L2 values being, 0.001
 
 ### Validation Accuracy
-
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/L1(0.001)Acc.png)
 
 
 ### Validation Loss
 
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/L1(0.001)Loss.png)
 
 
 
-
-
-
-
-## Using Only L1 Regularization
+## With L1 and L2 values being, 0.000001
 ### Validation Accuracy
-
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/L1(0.000001)Acc.png)
 
 
 ### Validation Loss
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/L1(0.000001)Loss.png)
 
-
-
-
-
-
-
-## Using Only L2 Regularization
-### Validation Accuracy
-
-
-
-### Validation Loss
-
-
-
-
-
-
-
-
-## Using L1 and L2 Regularization
-### Validation Accuracy
-
-
-
-### Validation Loss
 
 ## Missclassified Images
 
