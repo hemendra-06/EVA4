@@ -24,5 +24,7 @@
 ## Missclassified Images
 
 ### Using Only L1
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/MisMatchL1.png)
 
 ### Using Only L2
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S6/MisMatchL2.png)
