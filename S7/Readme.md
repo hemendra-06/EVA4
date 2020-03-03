@@ -1,3 +1,7 @@
+Team members:
+    - Umesh Singn (mshsingn772@gmail.com)
+    - Hemendra Srinivasan (hemendra1111@gmail.com)
+
 - The model achieves an accuracy of 81% with 35 epochs under the given contraints of parameters less than 1M.
 
 - The model includes dilation in convblock2 and Depthwise separable convolution in convblock3. The test data normalisation includes RandomHorizontalFlip and RandomCrop
