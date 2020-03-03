@@ -7,7 +7,7 @@
     a. cifar10.py - 
 		includes model architecture
 		
-        ![Image description](https://github.com/hemendra-06/EVA4/blob/master/S7/imgs/Cifar10_Arch.PNG)
+    ![Image description](https://github.com/hemendra-06/EVA4/blob/master/S7/imgs/Cifar10_Arch.PNG)
 
 	c. imagetransforms.py-
 		provides the transformation for test and train data
