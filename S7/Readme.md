@@ -1,6 +1,7 @@
-#### Team members:
+###### Team members:
     - Umesh Singh (mshsingn772@gmail.com)
     - Hemendra Srinivasan (hemendra1111@gmail.com)
+
 
 - The model achieves an accuracy of 81% with 35 epochs under the given contraints of parameters less than 1M.
 
