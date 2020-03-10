@@ -27,5 +27,5 @@
 		performs check for the available devices and provides function for running the model
 
 	e. utils.py -
-	
+
 		contines the utility functions like display of model summary 
