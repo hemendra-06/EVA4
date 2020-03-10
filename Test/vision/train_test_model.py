@@ -37,7 +37,7 @@ class RunModel:
           processed += len(inputs)
           pbar.set_description(desc= f'Epoch: {epoch}  Loss={loss.item()}  Batch_id={batch_idx}  Train Accuracy={100*correct/processed:0.2f}')
 
-  def test(self, model):
+  def test(self):
       use_cuda = torch.cuda.is_available()
       device = torch.device("cuda" if use_cuda else "cpu")
       correct = 0
@@ -45,7 +45,7 @@ class RunModel:
       with torch.no_grad():
           for images, labels in self.testloader:
               images, labels = images.to(device), labels.to(device)
-              outputs = model(images)
+              outputs = self.model(images)
               _, predicted = torch.max(outputs.data, 1)
               total += labels.size(0)
               correct += (predicted == labels).sum().item()
