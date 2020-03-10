@@ -1,9 +1,10 @@
+
 ###### Team members:
     - Umesh Singh (mshsingn772@gmail.com)
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 81% with 15 epochs.
+- The model achieves an accuracy of 86% with 15 epochs.
 
 - The model makes use of ResNet18 architecture for training cifar10
 
@@ -27,4 +28,5 @@
 		performs check for the available devices and provides function for running the model
 
 	e. utils.py -
+
 		contines the utility functions like display of model summary 
