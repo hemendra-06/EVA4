@@ -3,15 +3,15 @@
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 81% with 35 epochs under the given contraints of parameters less than 1M.
+- The model achieves an accuracy of 81% with 15 epochs.
 
-- The model includes dilation in convblock2 and Depthwise separable convolution in convblock3. The test data normalisation includes RandomHorizontalFlip and RandomCrop
+- The model makes use of ResNet18 architecture for training cifar10
 
 - The modularised code includes files:
 	
-    a. the model folder contains different model architectures like,
+    a. the model folder contains different model architectures for cifar10 like,
 
-		- custom architecture for cifar10
+		- custom architecture 
 		- ResNet18 architecture
 
 	c. imagetransforms.py -
