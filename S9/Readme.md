@@ -4,7 +4,7 @@
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 86% with 15 epochs.
+- The model achieves an accuracy of 89.69% with 25 epochs.
 
 - The model makes use of ResNet18 architecture for training cifar10
 
@@ -17,7 +17,7 @@
 
 	c. imagetransforms.py -
 
-		provides the transformation for test and train data
+		provides the pytorch transformation for test and train data and albumentation transformation for train as well
 	
 	b. dataloader.py - 
 
@@ -29,4 +29,8 @@
 
 	e. utils.py -
 
-		contines the utility functions like display of model summary 
+		contines the utility functions like display of model summary, calculation of mean and standard deviation
+
+	f. gradcam.py
+
+		contains the necessary methods to implement gradcam
