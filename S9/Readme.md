@@ -4,7 +4,7 @@
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 89.69% with 25 epochs.
+- The model achieves an accuracy of 89.80% with 25 epochs.
 
 - The model makes use of ResNet18 architecture for training cifar10
 
