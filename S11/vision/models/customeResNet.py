@@ -3,28 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchsummary import summary
 
-class BasicBlock(nn.Module):
-  expansion = 1
-  def __init__(self, in_planes, planes, stride=1):
-      super(BasicBlock, self).__init__()
-      self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
-      self.bn1 = nn.BatchNorm2d(planes)
-      self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
-      self.bn2 = nn.BatchNorm2d(planes)
-
-      self.shortcut = nn.Sequential()
-      if stride != 1 or in_planes != self.expansion*planes:
-          self.shortcut = nn.Sequential(
-              nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=1, padding=1, bias=False),
-              nn.BatchNorm2d(self.expansion*planes)
-          )
-
-  def forward(self, x):
-      out = F.relu(self.bn1(self.conv1(x)))
-      out = F.relu((self.bn2(self.conv2(out))))
-      out += x
-      return out
-
 class CustomModel(nn.Module):
     def __init__(self):
         super(CustomModel, self).__init__()
@@ -76,8 +54,11 @@ class CustomModel(nn.Module):
           nn.BatchNorm2d(512),
           nn.ReLU()
         )
+        #MaxPool
         self.pool = nn.MaxPool2d(4,4)
-        self.linear = nn.Linear(512, 10)
+
+        #Fully Connected layer
+        self.linear = nn.Linear(in_features = 512, out_features = 10, bias=False)
     
     def forward(self, x):
       x = self.preplayer(x)
@@ -87,7 +68,7 @@ class CustomModel(nn.Module):
       x = self.layer3(x)
       x += self.resblock2(x)
       x = self.pool(x)
+      x = x.view(x.size(0), -1)
       x = self.linear(x)
-      # x =F.log_softmax(x, dim=-1)
-      return x
+      return F.log_softmax(x.view(-1,10), dim=-1)
 

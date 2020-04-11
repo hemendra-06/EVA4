@@ -17,11 +17,11 @@ class RunModel:
     self.test_accuracies = []
     self.L1 = L1
 
-  def train(self, epoch):  
-    self.model.train()
+  def train(self): 
       use_cuda = torch.cuda.is_available()
       device = torch.device("cuda" if use_cuda else "cpu")
       model = self.model.to(device)
+      model.train() 
       running_loss = 0.0
       pbar = tqdm(self.trainloader)
       correct = 0
@@ -41,7 +41,6 @@ class RunModel:
             loss = self.criterion(outputs, labels)
           else:            
             loss = F.nll_loss(outputs, labels)
-          
 
           #Implementing L1 regularization
           if self.L1 > 0:
@@ -52,17 +51,17 @@ class RunModel:
             
           loss.backward()
           self.optimizer.step()
-          running_loss += loss.item()
+          # running_loss += loss.item()
           
-          pred = outputs.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-          correct += pred.eq(labels.view_as(pred)).sum().item()
+          pred = outputs.argmax(dim=1, keepdim=False)  # get the index of the max log-probability
+          # correct += pred.eq(labels.view_as(pred)).sum().item()
+          correct += pred.eq(labels).sum().item()
           processed += len(inputs)
-
-          pbar.set_description(desc= f'Epoch: {epoch}  Loss={loss.item()}  Batch_id={batch_idx}  Train Accuracy={100*correct/processed:0.2f}')
-          acc = 100*correct/processed
-
           
-          self.scheduler.step(running_loss)
+          pbar.set_description(desc=f' Loss={loss.item()} Train Accuracy={(100*correct/processed):.2f}%')
+          pbar.update(1)
+      
+      self.scheduler.step(loss)
       self.train_accuracies.append(100*correct/processed)
       self.train_losses.append(loss)
 
@@ -70,29 +69,34 @@ class RunModel:
   def test(self):
       use_cuda = torch.cuda.is_available()
       device = torch.device("cuda" if use_cuda else "cpu")
+      model = self.model.to(device)
+      model.eval()
       correct = 0
       total = 0
       test_loss = 0
       with torch.no_grad():
           for images, labels in self.testloader:
               images, labels = images.to(device), labels.to(device)
-              outputs = self.model(images)
-              test_loss += self.criterion(outputs, labels)
-              _, predicted = torch.max(outputs.data, 1)
-              total += labels.size(0)
-              correct += (predicted == labels).sum().item()
+              outputs = model(images)
+              test_loss += self.criterion(outputs, labels).item()
               
-      
+              pred = outputs.argmax(dim=1, keepdim=False) 
+              correct += pred.eq(labels).sum().item()
+              
       test_loss /= len(self.testloader.dataset)
       self.test_losses.append(test_loss)
-      print('Accuracy of the network on 10000 the test images: %0.2f %% \n' % (100 * correct / total))
-      self.test_accuracies.append(100. * correct / len(self.testloader.dataset))
-
+      self.test_accuracies.append(100*correct/len(self.testloader.dataset))
+      # print('Accuracy of the network on 10000 the test images: %0.2f %% \n' % (100*correct/len(self.testloader.dataset)))
+      print(f'Testing: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.testloader.dataset)} ({self.test_accuracies[-1]:.2f}%)\n')
+      
 
   def train_test(self):
       for epoch in range(1, self.epochs+1):
-          self.train(epoch)
+          print(f'Epoch {epoch}:')
+          print('---------')
+          self.train()
           self.test()
+
 
   def get_losses(self):
     return self.train_losses, self.test_losses
@@ -101,48 +105,3 @@ class RunModel:
   def get_accuracies(self):
       return self.train_accuracies, self.test_accuracies
   
-def train(model, train_loader, device, optimizer, criterion):
-    print('---------')
-    model = model.to(device)
-    model.train()
-    pbar = tqdm(train_loader)
-    correct = 0
-    processed = 0
-    for batch_idx, (data, target) in enumerate(pbar):
-        data, target = data.to(device), target.to(device)
-        optimizer.zero_grad()
-        y_pred = model(data)
-        loss = criterion(y_pred, target)
-        loss.backward()
-        optimizer.step()
-        pred = y_pred.argmax(dim=1, keepdim=False)
-        correct += pred.eq(target).sum().item()
-        processed += len(data)
-        pbar.set_description(desc=f'Loss={loss.item():0.2f} Accuracy={(100 * correct / processed):.2f}')
-        pbar.update(1)
-    train_acc = 100*correct/processed
-    return train_acc, loss
-
-def val(model, val_loader, device, criterion, losses, accuracies):
-    model.eval()
-    correct = 0
-    val_loss = 0
-    with torch.no_grad():
-        for data, target in val_loader:
-            img_batch = data  
-            data, target = data.to(device), target.to(device)  
-            output = model(data)  
-            val_loss += criterion(output, target).item()  
-            pred = output.argmax(dim=1, keepdim=False) 
-
-            correct += pred.eq(target).sum().item()
-    
-    val_loss /= len(val_loader.dataset)
-    losses.append(val_loss)
-    accuracies.append(100. * correct / len(val_loader.dataset))
-    print(f'Testing: Average loss: {val_loss:.4f}, Accuracy: {correct}/{len(val_loader.dataset)} ({accuracies[-1]:.2f}%)\n')
-    test_acc = (100 * correct / len(val_loader.dataset))  
-
-    return test_acc, val_loss
-
-
