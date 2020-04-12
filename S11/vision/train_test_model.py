@@ -3,7 +3,7 @@ from tqdm import tqdm
 import torch.nn.functional as F
 
 class RunModel:
-  def __init__(self, model, trainloader, testloader, optimizer, scheduler, epochs, L1=0, criterion=None):
+  def __init__(self, model, trainloader, testloader, optimizer, scheduler, epochs, criterion, L1=0):
     self.model = model
     self.trainloader = trainloader
     self.testloader = testloader
@@ -22,7 +22,6 @@ class RunModel:
       device = torch.device("cuda" if use_cuda else "cpu")
       model = self.model.to(device)
       model.train() 
-      running_loss = 0.0
       pbar = tqdm(self.trainloader)
       correct = 0
       processed = 0
@@ -36,11 +35,9 @@ class RunModel:
           self.optimizer.zero_grad()
           
           # forward + backward + optimize
+          
           outputs = model(inputs)
-          if self.criterion:
-            loss = self.criterion(outputs, labels)
-          else:            
-            loss = F.nll_loss(outputs, labels)
+          loss = self.criterion(outputs, labels)
 
           #Implementing L1 regularization
           if self.L1 > 0:
@@ -51,10 +48,8 @@ class RunModel:
             
           loss.backward()
           self.optimizer.step()
-          # running_loss += loss.item()
           
           pred = outputs.argmax(dim=1, keepdim=False)  # get the index of the max log-probability
-          # correct += pred.eq(labels.view_as(pred)).sum().item()
           correct += pred.eq(labels).sum().item()
           processed += len(inputs)
           
@@ -79,20 +74,18 @@ class RunModel:
               images, labels = images.to(device), labels.to(device)
               outputs = model(images)
               test_loss += self.criterion(outputs, labels).item()
-              
               pred = outputs.argmax(dim=1, keepdim=False) 
               correct += pred.eq(labels).sum().item()
               
       test_loss /= len(self.testloader.dataset)
       self.test_losses.append(test_loss)
       self.test_accuracies.append(100*correct/len(self.testloader.dataset))
-      # print('Accuracy of the network on 10000 the test images: %0.2f %% \n' % (100*correct/len(self.testloader.dataset)))
       print(f'Testing: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.testloader.dataset)} ({self.test_accuracies[-1]:.2f}%)\n')
       
 
   def train_test(self):
       for epoch in range(1, self.epochs+1):
-          print(f'Epoch {epoch}:')
+          print(f'\nEpoch {epoch}:')
           print('---------')
           self.train()
           self.test()

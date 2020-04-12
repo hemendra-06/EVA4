@@ -45,6 +45,41 @@ class Res18(nn.Module):
     def get_activations(self, x):
         return self.features_conv(x)
 
+class NewResS11(nn.Module):
+    def __init__(self, net):
+        super(NewResS11, self).__init__()
+        
+        self.newres = net
+        self.features_conv = nn.Sequential(self.newres.preplayer,
+                                           self.newres.layer1,
+                                           self.newres.resblock1,
+                                           self.newres.layer2,
+                                           self.newres.layer3,
+                                           self.newres.resblock2,
+                                           self.newres.pool
+                                           ) 
+        
+        self.linear = self.newres.linear
+        self.gradients = None
+    
+    # hook for the gradients of the activations
+    def activations_hook(self, grad):
+        self.gradients = grad
+        
+    def forward(self, x):
+        x = self.features_conv(x)
+        h = x.register_hook(self.activations_hook)
+        x = F.avg_pool2d(x, 4)
+        x = x.view(x.size(0), -1)
+        x = self.linear(x)
+        return x
+
+    def get_activations_gradient(self):
+        return self.gradients
+    
+    def get_activations(self, x):
+        return self.features_conv(x)
+
 def getheatmap(pred, class_pred, netx, img):
   pred[:, class_pred].backward()
   gradients = netx.get_activations_gradient()
@@ -71,7 +106,8 @@ def superposeimage(heatmap, img):
   cv2.imwrite('./map.jpg', superimposed_img)
 
 def get_gradcam(net, img, classes, gt, pd):
-  netx = Res18(net)
+  # netx = Res18(net)
+  netx = NewResS11(net)
   netx.eval()
   fig, axes = plt.subplots(nrows=1, ncols=3)
   pred = netx(img.cuda())

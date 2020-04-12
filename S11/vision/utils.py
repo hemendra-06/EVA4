@@ -8,12 +8,17 @@ from vision.gradcam import GradCAM
 from torchvision.utils import make_grid
 import  torchvision
 import matplotlib.pyplot as plt
+from scipy import signal
 
 class Helper():
   def __init__(self):
+    self.device = self.get_device()
+
+
+  def get_device(self):
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
-    self.device = device
+    return device
 
 
   def model_summary(self, Net, input_size):
@@ -70,11 +75,13 @@ class Helper():
 
       return heatmap, result
 
+
   def show_img(self, img):
       #img = img / 2 + 0.5     # unnormalize
       npimg = img.numpy()
       fig = plt.figure(figsize=(6,6))
       plt.imshow(np.transpose(npimg, (1, 2, 0)),interpolation='none')
+
 
   def plot_images(self, torch_img,normed_torch_img, model):
       images=[]
@@ -133,6 +140,7 @@ class Helper():
     
     return img_arr, img_org, img_pred
 
+
   def plot_acc_graph(self, train_accs, test_accs, epochs):
     epoch_count = range(0, epochs)
     plt.figure(1, figsize=[15,10])
@@ -144,6 +152,7 @@ class Helper():
     plt.title("Train-Test Accuracy Graph")
     plt.show()
   
+
   def plot_loss_graph(self, train_losses, test_losses, epochs):
     epoch_count = range(0, epochs)
     plt.figure(1, figsize=[15,10])
@@ -156,5 +165,9 @@ class Helper():
     plt.show()
 
 
+  def plot_saw_tooth(self):
+    t = np.linspace(0, 1, 500)
+    triangle = signal.sawtooth(2 * np.pi * 5 * t, 0.5)
+    plt.plot(t, triangle)
 
 
