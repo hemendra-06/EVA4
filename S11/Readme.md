@@ -4,7 +4,7 @@
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 88.25% with 50 epochs.
+- The model achieves an accuracy of 85.67% with 24 epochs.
 
 - The model makes use of ResNet18 architecture for training cifar10
 
@@ -14,6 +14,7 @@
 
 		- custom architecture 
 		- ResNet18 architecture
+		- custumResNet architecture
 
 	c. imagetransforms.py -
 
