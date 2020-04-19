@@ -5,27 +5,27 @@ The coco format of the json file generated after annotating in using the VGG ann
 
     "images": 
     [{
-            "id": 0, #id assigned to each image
+            "id": 0, #unique id assigned to each image
             "width": 1280, #width of the original image
             "height": 960, #height of the original image
             "file_name": "dog_image_1.jpg", #original image name
             "license": 1,
-            "date_captured": ""
+            "date_captured": ""  
     }],
     "annotation": 
     [{
-            "id" : int,
-            "image_id": int,
+            "id" : int, #unique id assigned to each bounding box irrespective of the image it belongs to
+            "image_id": int, # maps the annotated region to the respective image so as to handle multiple regions in a single image
             "category_id": int,
-            "segmentation": RLE or [polygon],
-            "area": float,
-            "bbox": [x,y,width,height],
+            "segmentation": RLE or [polygon], # the type of the  segmentation used, like box, polygon circle etc.,
+            "area": float, #area of the annotated region
+            "bbox": [x,y,width,height], #the x,y coordinatea and width, height of the bbox
             "iscrowd": 0 or 1,
         }],
     "categories": 
     [{
-            "id": int,
-            "name": str,
+            "id": int, # unique id to the category/attribute
+            "name": str, # name of the category/attribute
     }]
 
 
