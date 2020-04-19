@@ -35,8 +35,8 @@ The coco format of the json file generated after annotating in using the VGG ann
 
 
 ### Cluster without log conversion graph
-![Image description](https://github.com/hemendra-06/EVA4/blob/master/S12/Assignment_B/images/Clusters_Without_log_Conversion.PNG)
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S12/Assignment_B/images/Clusters_without_log.PNG)
 
 
 ### Cluster with log conversion graph
-![Image description](https://github.com/hemendra-06/EVA4/blob/master/S12/Assignment_B/images/Clusters_With_log_Conversion.PNG)
+![Image description](https://github.com/hemendra-06/EVA4/blob/master/S12/Assignment_B/images/Clusters_with_log.PNG)
