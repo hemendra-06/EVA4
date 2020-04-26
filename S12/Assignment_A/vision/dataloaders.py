@@ -20,9 +20,14 @@ class Loader:
       if self.dataset_name.lower() == 'cifar10': 
         trainset = torchvision.datasets.CIFAR10(root='./data', train=self.train,
                                                 download=self.download, transform=self.train_transforms)
+      
       elif self.dataset_name.lower() == 'mnist':
         trainset = torchvision.datasets.MNIST(root='./data', train=self.train,
                                                 download=self.download, transform=self.train_transforms)
+      
+      elif self.dataset_name.lower() == 'custom':
+        trainset = self.train_transforms
+
       elif not len(self.dataset_name.strip()):
         print('The value for dataset_name has to be either "mnist" or "cifar10". ')                                            
 
@@ -36,9 +41,14 @@ class Loader:
       if self.dataset_name.lower() == 'cifar10': 
         testset = torchvision.datasets.CIFAR10(root='./data', train=not self.test,
                                                 download=self.download, transform=self.test_transforms)
+      
       elif self.dataset_name.lower() == 'mnist':
         testset = torchvision.datasets.MNIST(root='./data', train=not self.test,
                                                 download=self.download, transform=self.test_transforms)
+      
+      elif self.dataset_name.lower() == 'custom':
+        testset = self.test_transforms
+
       elif not len(self.dataset_name.strip()):
         print('The value for dataset_name has to be either "mnist" or "cifar10". ')  
       dataloader_args = dict(batch_size=self.batch_size, shuffle=self.shuffle, num_workers=self.num_workers)  if use_cuda else dict(batch_size=self.batch_size, shuffle=self.shuffle)
@@ -54,9 +64,17 @@ class Loader:
     elif self.dataset_name.lower() == 'mnist':
       testset = torchvision.datasets.MNIST(root='./data', train=not self.test,
                                               download=self.download, transform=self.test_transforms)
+    elif self.dataset_name.lower() == 'custom':
+      testset = self.test_transforms
+    
     elif not len(self.dataset_name.strip()):
       print('The value for dataset_name has to be either "mnist" or "cifar10". ')  
     dataloader_args = dict(batch_size=1, shuffle=self.shuffle, num_workers=self.num_workers)  if use_cuda else dict(batch_size=self.batch_size, shuffle=self.shuffle)
     testloader = torch.utils.data.DataLoader(testset, **dataloader_args)
     return testloader
+
+
+
+
+
 

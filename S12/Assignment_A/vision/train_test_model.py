@@ -26,6 +26,8 @@ class RunModel:
       correct = 0
       processed = 0
       loss = 0
+      
+      
 
       for batch_idx, (inputs, labels) in enumerate(pbar):
           # get the inputs
@@ -80,12 +82,11 @@ class RunModel:
       test_loss /= len(self.testloader.dataset)
       self.test_losses.append(test_loss)
       self.test_accuracies.append(100*correct/len(self.testloader.dataset))
-      print(f'Testing: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.testloader.dataset)} ({self.test_accuracies[-1]:.2f}%)\n')
-      
+      print(f'Testing: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(self.testloader.dataset)} ({self.test_accuracies[-1]:.2f}%)')
 
   def train_test(self):
       for epoch in range(1, self.epochs+1):
-          print(f'\nEpoch {epoch}:')
+          print(f'Epoch {epoch}:')
           print('---------')
           self.train()
           self.test()
