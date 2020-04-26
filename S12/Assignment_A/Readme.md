@@ -4,7 +4,7 @@
     - Hemendra Srinivasan (hemendra1111@gmail.com)
 
 
-- The model achieves an accuracy of 88.25% with 50 epochs.
+- The model achieves an test accuracy of 55.15% with 50 epochs.
 
 - The model makes use of ResNet18 architecture for training cifar10
 
@@ -17,7 +17,8 @@
 
 	c. imagetransforms.py -
 
-		provides the pytorch transformation for test and train data and albumentation transformation for train as well
+		provides the pytorch transformation for test and train data and albumentation transformation for train as well.
+		Has been modified to create transforms by considering the dataset directly to albumentations
 	
 	b. dataloader.py - 
 
@@ -42,3 +43,7 @@
 	h. lr_finder.py
 
 		contains the lr finder implementaions 
+	
+	i. Tiny_Imagenet_200.py
+
+		contains the code for dowloading the tiny imagenet dataset and also snippets for train test split as well
