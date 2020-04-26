@@ -6,13 +6,15 @@
 
 - The model achieves an test accuracy of 55.15% with 50 epochs.
 
-- The model makes use of ResNet18 architecture for training cifar10
+- The model makes use of ResNet18 architecture for training TinyImagenet_200
 
 - The modularised code includes files:
 	
-    a. the model folder contains different model architectures for cifar10 like,
+    a. the model folder contains different model architectures,
 
-		- custom architecture 
+		- customeResNet
+		- mnistmodel
+		- cifar10 architecture 
 		- ResNet18 architecture
 
 	c. imagetransforms.py -
